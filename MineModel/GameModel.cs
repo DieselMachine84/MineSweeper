@@ -4,9 +4,9 @@ using System.Linq;
 using System.Timers;
 
 namespace MineModel {
-	public enum GameState { Active, Win, Lose }
+	public enum GameState { None, Active, Win, Lose }
 
-	public class Model : IDisposable {
+	public class GameModel : IDisposable {
 		private GameState gameState;
 
 		private bool MinesPlaced { get; set; }
@@ -14,7 +14,7 @@ namespace MineModel {
 		public int Rows { get; private set; }
 		public int Columns { get; private set; }
 		public int MinesCount { get; private set; }
-		public List<ButtonModel> Buttons { get; private set; }
+		public List<CellModel> Cells { get; private set; }
 		public CounterModel MineCounter { get; private set; }
 		public CounterModel TimeCounter { get; private set; }
 		public StateButtonModel StateButton { get; private set; }
@@ -37,35 +37,36 @@ namespace MineModel {
 			}
 		}
 		
-		public Model(int rows, int columns, int minesCount,
+		public GameModel(int rows, int columns, int minesCount,
 		             System.ComponentModel.ISynchronizeInvoke synchronizingObject) {
+			GameState = MineModel.GameState.None;
 			MinesPlaced = false;
-			Rows = rows;
-			Columns = columns;
-			MinesCount = minesCount;
-			Buttons = new List<ButtonModel>(rows * columns);
+			Rows = (rows >= 5) ? rows : 5;
+			Columns = (columns >= 5) ? columns : 5;
+			MinesCount = (minesCount <= rows * columns - 10) ? minesCount : rows * columns - 10;
+			Cells = new List<CellModel>(rows * columns);
 			MineCounter = new CounterModel(minesCount);
 			TimeCounter = new CounterModel(0);
 			StateButton = new StateButtonModel(this);
 			Timer = new System.Timers.Timer(1000);
 			Timer.SynchronizingObject = synchronizingObject;
 			Timer.Elapsed += (sender, e) => UpdateTimeCounter();
-			GameState = MineModel.GameState.Active;
 
 			for (int row = 0; row < rows; row++) {
 				for (int column = 0; column < columns; column++) {
-					Buttons.Add(new ButtonModel(this, row, column));
+					Cells.Add(new CellModel(this, row, column));
 				}
 			}
 
-			Buttons.ForEach(button => button.Neighbours.AddRange(
-				Buttons.Where(another =>
-			              (Math.Abs(another.Row - button.Row) <= 1)
-			              && (Math.Abs(another.Column - button.Column) <= 1)
-			              && (button != another))));
+			Cells.ForEach(cell => cell.Neighbours.AddRange(
+				Cells.Where(another =>
+			            (Math.Abs(another.Row - cell.Row) <= 1)
+			            && (Math.Abs(another.Column - cell.Column) <= 1)
+			            && (cell != another))));
+			GameState = MineModel.GameState.Active;
 		}
 		
-		private void PlaceMines(ButtonModel cellToOpen) {
+		private void PlaceMines(CellModel cellToOpen) {
 			if (MinesPlaced) {
 				return;
 			}
@@ -73,7 +74,7 @@ namespace MineModel {
 			int placedCount = 0;
 			Random random = new Random();
 			while (placedCount < MinesCount) {
-				ButtonModel target = Buttons[random.Next(Buttons.Count)];
+				CellModel target = Cells[random.Next(Cells.Count)];
 				if (!target.HasMine && (target != cellToOpen)) {
 					target.HasMine = true;
 					placedCount++;
@@ -85,7 +86,7 @@ namespace MineModel {
 		}
 		
 		private void UpdateMineCounter() {
-			MineCounter.Value = MinesCount - Buttons.Count(cell => cell.State == ButtonState.MarkedMine);
+			MineCounter.Value = MinesCount - Cells.Count(cell => cell.State == CellState.MarkedMine);
 		}
 		
 		private void UpdateTimeCounter() {
@@ -93,11 +94,11 @@ namespace MineModel {
 		}
 		
 		private void CheckVictory() {
-			bool allMinesMarked = !Buttons.Any(button => button.HasMine
-				&& button.State != ButtonState.MarkedMine
+			bool allMinesMarked = !Cells.Any(cell => cell.HasMine
+				&& cell.State != CellState.MarkedMine
 			);
-			bool allOtherCellsOpened = !Buttons.Any(button => !button.HasMine
-				&& button.State != ButtonState.Opened
+			bool allOtherCellsOpened = !Cells.Any(cell => !cell.HasMine
+				&& cell.State != CellState.Opened
 			);
 			if (allMinesMarked && allOtherCellsOpened) {
 				GameState = GameState.Win;
@@ -121,29 +122,29 @@ namespace MineModel {
 		}
 		
 		public void Restart() {
+			GameState = MineModel.GameState.None;
 			MinesPlaced = false;
 			MineCounter.Value = MinesCount;
 			TimeCounter.Value = 0;
-			Buttons.ForEach(cell => cell.Reset());
+			Cells.ForEach(cell => cell.Reset());
 			Timer.Stop();
 			GameState = MineModel.GameState.Active;
-			OnGameStateChanged(EventArgs.Empty);
 		}
 		
-		public void Open(ButtonModel buttonModel) {
+		public void Open(CellModel cellModel) {
 			CheckPreAndPostConditionsAndDoAction(() => {
-				PlaceMines(buttonModel);
-				buttonModel.Open();
+				PlaceMines(cellModel);
+				cellModel.Open();
 			});
 		}
 
-		public void OpenNeighbours(ButtonModel buttonModel) {
-			CheckPreAndPostConditionsAndDoAction(() => buttonModel.OpenNeighbours());
+		public void OpenNeighbours(CellModel cellModel) {
+			CheckPreAndPostConditionsAndDoAction(() => cellModel.OpenNeighbours());
 		}
 		
-		public void ToggleMark(ButtonModel buttonModel) {
+		public void ToggleMark(CellModel cellModel) {
 			CheckPreAndPostConditionsAndDoAction(() => {
-				buttonModel.ToggleMark();
+				cellModel.ToggleMark();
 				UpdateMineCounter();
 			});
 		}

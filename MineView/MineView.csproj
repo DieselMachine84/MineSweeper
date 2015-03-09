@@ -30,10 +30,153 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyClass.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Counter.cs" />
+    <Compile Include="StateButton.cs" />
+    <Compile Include="Field.cs" />
+    <Compile Include="Rectangle.cs" />
+    <Compile Include="ImageId.cs" />
+    <Compile Include="Controller.cs" />
+    <Compile Include="MineViewFactory.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="FieldCell.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\CellClosed.png">
+      <LogicalName>CellClosed</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\CellEight.png">
+      <LogicalName>CellEight</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\CellFive.png">
+      <LogicalName>CellFive</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\CellFour.png">
+      <LogicalName>CellFour</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\CellMark.png">
+      <LogicalName>CellMark</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\CellMine.png">
+      <LogicalName>CellMine</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\CellOne.png">
+      <LogicalName>CellOne</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\CellOpened.png">
+      <LogicalName>CellOpened</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\CellSeven.png">
+      <LogicalName>CellSeven</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\CellSix.png">
+      <LogicalName>CellSix</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\CellThree.png">
+      <LogicalName>CellThree</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\CellTwo.png">
+      <LogicalName>CellTwo</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\DigitEight.png">
+      <LogicalName>DigitEight</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\DigitFive.png">
+      <LogicalName>DigitFive</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\DigitFour.png">
+      <LogicalName>DigitFour</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\DigitNine.png">
+      <LogicalName>DigitNine</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\DigitOne.png">
+      <LogicalName>DigitOne</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\DigitSeven.png">
+      <LogicalName>DigitSeven</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\DigitSix.png">
+      <LogicalName>DigitSix</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\DigitThree.png">
+      <LogicalName>DigitThree</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\DigitTwo.png">
+      <LogicalName>DigitTwo</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\DigitZero.png">
+      <LogicalName>DigitZero</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\HexClosed.png">
+      <LogicalName>HexClosed</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\HexFive.png">
+      <LogicalName>HexFive</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\HexFour.png">
+      <LogicalName>HexFour</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\HexMark.png">
+      <LogicalName>HexMark</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\HexMine.png">
+      <LogicalName>HexMine</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\HexMineBlack.png">
+      <LogicalName>HexMineBlack</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\HexMineCrossed.png">
+      <LogicalName>HexMineCrossed</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\HexMineRed.png">
+      <LogicalName>HexMineRed</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\HexOne.png">
+      <LogicalName>HexOne</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\HexOpened.png">
+      <LogicalName>HexOpened</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\HexSix.png">
+      <LogicalName>HexSix</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\HexThree.png">
+      <LogicalName>HexThree</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\HexTwo.png">
+      <LogicalName>HexTwo</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\MineBlack.png">
+      <LogicalName>MineBlack</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\MineCrossed.png">
+      <LogicalName>MineCrossed</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\MineRed.png">
+      <LogicalName>MineRed</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\Smile.png">
+      <LogicalName>Smile</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\SmileLose.png">
+      <LogicalName>SmileLose</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\SmileWin.png">
+      <LogicalName>SmileWin</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MineModel\MineModel.csproj">
+      <Project>{23D61FBD-2D68-43D7-AF9A-9DC70E40E1C4}</Project>
+      <Name>MineModel</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

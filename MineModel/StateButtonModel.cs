@@ -1,8 +1,11 @@
 using System;
+
 namespace MineModel {
 	public class StateButtonModel {
-		public StateButtonModel() {
+		public GameModel GameModel { get; private set; }
+
+		public StateButtonModel(GameModel gameModel) {
+			GameModel = gameModel;
 		}
 	}
 }
-

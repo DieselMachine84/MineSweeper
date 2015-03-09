@@ -41,7 +41,7 @@ namespace MineModel {
 		}
 		
 		public int GetNumberOfNearbyMines() {
-			return Neighbours.Count(button => button.HasMine);
+			return Neighbours.Count(cell => cell.HasMine);
 		}
 		
 		internal void Reset() {
@@ -51,10 +51,10 @@ namespace MineModel {
 		
 		internal void OpenNeighbours() {
 			if (State == CellState.Opened) {
-				foreach (var button in Neighbours) {
-					button.Open();
-					if ((button.HasMine && (button.State != CellState.MarkedMine))
-						|| (!button.HasMine && (button.State == CellState.MarkedMine))) {
+				foreach (var cell in Neighbours) {
+					cell.Open();
+					if ((cell.HasMine && (cell.State != CellState.MarkedMine))
+						|| (!cell.HasMine && (cell.State == CellState.MarkedMine))) {
 						GameModel.GameOver();
 					}
 				}
@@ -65,10 +65,10 @@ namespace MineModel {
 			if (State == CellState.Closed) {
 				State = CellState.Opened;
 				if (HasMine) {
-					Model.GameOver();
+					GameModel.GameOver();
 				} else {
 					if (GetNumberOfNearbyMines() == 0) {
-						Neighbours.ForEach(button => button.Open());
+						Neighbours.ForEach(cell => cell.Open());
 					}
 				}
 			}

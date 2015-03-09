@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper", "MineSweeper\MineSweeper.csproj", "{0355AF84-3A25-46AA-BD8C-B3C2849D4BA9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineModel", "MineModel\MineModel.csproj", "{23D61FBD-2D68-43D7-AF9A-9DC70E40E1C4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineGtkView", "MineGtkView\MineGtkView.csproj", "{37641032-1E99-471B-8844-6B1287DA8818}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper", "MineWinFormsView\MineSweeper.csproj", "{F4C57F14-F94B-4F9E-889D-8ED3FC592C39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineView", "MineView\MineView.csproj", "{31707109-F7B8-49AB-ABBA-FC6502A666C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,20 +15,24 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0355AF84-3A25-46AA-BD8C-B3C2849D4BA9}.Debug|x86.ActiveCfg = Debug|x86
-		{0355AF84-3A25-46AA-BD8C-B3C2849D4BA9}.Debug|x86.Build.0 = Debug|x86
-		{0355AF84-3A25-46AA-BD8C-B3C2849D4BA9}.Release|x86.ActiveCfg = Release|x86
-		{0355AF84-3A25-46AA-BD8C-B3C2849D4BA9}.Release|x86.Build.0 = Release|x86
 		{23D61FBD-2D68-43D7-AF9A-9DC70E40E1C4}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{23D61FBD-2D68-43D7-AF9A-9DC70E40E1C4}.Debug|x86.Build.0 = Debug|Any CPU
 		{23D61FBD-2D68-43D7-AF9A-9DC70E40E1C4}.Release|x86.ActiveCfg = Release|Any CPU
 		{23D61FBD-2D68-43D7-AF9A-9DC70E40E1C4}.Release|x86.Build.0 = Release|Any CPU
+		{31707109-F7B8-49AB-ABBA-FC6502A666C1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{31707109-F7B8-49AB-ABBA-FC6502A666C1}.Debug|x86.Build.0 = Debug|Any CPU
+		{31707109-F7B8-49AB-ABBA-FC6502A666C1}.Release|x86.ActiveCfg = Release|Any CPU
+		{31707109-F7B8-49AB-ABBA-FC6502A666C1}.Release|x86.Build.0 = Release|Any CPU
 		{37641032-1E99-471B-8844-6B1287DA8818}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{37641032-1E99-471B-8844-6B1287DA8818}.Debug|x86.Build.0 = Debug|Any CPU
 		{37641032-1E99-471B-8844-6B1287DA8818}.Release|x86.ActiveCfg = Release|Any CPU
 		{37641032-1E99-471B-8844-6B1287DA8818}.Release|x86.Build.0 = Release|Any CPU
+		{F4C57F14-F94B-4F9E-889D-8ED3FC592C39}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F4C57F14-F94B-4F9E-889D-8ED3FC592C39}.Debug|x86.Build.0 = Debug|Any CPU
+		{F4C57F14-F94B-4F9E-889D-8ED3FC592C39}.Release|x86.ActiveCfg = Release|Any CPU
+		{F4C57F14-F94B-4F9E-889D-8ED3FC592C39}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = MineSweeper\MineSweeper.csproj
+		StartupItem = MineWinFormsView\MineSweeper.csproj
 	EndGlobalSection
 EndGlobal
