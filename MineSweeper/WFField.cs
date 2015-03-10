@@ -35,9 +35,6 @@ namespace MineSweeper {
 				).FirstOrDefault();
 
 				if (cell != null) {
-					/*if (e.Button == (System.Windows.Forms.MouseButtons.Left & System.Windows.Forms.MouseButtons.Right)) {
-						OpenNeighbours(cell);
-					}*/
 					if (e.Button == System.Windows.Forms.MouseButtons.Left) {
 						if ((mouseButtons & MouseButtons.Right) != MouseButtons.None) {
 							OpenNeighbours(cell);

@@ -3,7 +3,9 @@ using System.Windows.Forms;
 
 namespace MineSweeper {
 	public class MineWindow : Form {
-		private MineModel.GameModel model;
+        private const int PanelHeight = 36;
+
+        private MineModel.GameModel model;
 		private MineView.Controller controller;
 		private WFField field;
 		private FieldControl fieldControl;
@@ -13,7 +15,7 @@ namespace MineSweeper {
 		private System.Windows.Forms.Panel panel;
 
 		private void InitializeComponent() {
-			CreateNewGame(16, 30, 99);
+			CreateNewGame(16, 30, 99, false);
 
 			SuspendLayout();
 
@@ -36,19 +38,16 @@ namespace MineSweeper {
 			btnExit.Text = "Exit";
 			
 			panel = new System.Windows.Forms.Panel();
-			panel.Location = new System.Drawing.Point(0, 36);
+            panel.BackColor = System.Drawing.Color.FromArgb(123, 123, 123);
+            panel.Location = new System.Drawing.Point(0, PanelHeight);
 
 			CreateFieldControl();
-			//fieldControl = new FieldControl(field);
-			//fieldControl.Dock = DockStyle.Fill;
-			//fieldControl.Location = new System.Drawing.Point(0, 36);
-			//fieldControl.Size = new System.Drawing.Size(field.Width, field.Height);
 			
-			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			//AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			MaximizeBox = false;
-			MinimumSize = new System.Drawing.Size(204, 100);
+			MinimumSize = new System.Drawing.Size(220, 100);
 			Name = "MineWindow";
 			StartPosition = FormStartPosition.CenterScreen;
 			Text = "MineSweeper";
@@ -56,7 +55,6 @@ namespace MineSweeper {
 			Controls.Add(btnSettings);
 			Controls.Add(btnExit);
 			Controls.Add(panel);
-			//Controls.Add(fieldControl);
 
 			ResumeLayout(false);
 			PerformLayout();
@@ -70,8 +68,8 @@ namespace MineSweeper {
 			using (SettingsWindow settingsWindow = new SettingsWindow()) {
 				DialogResult result = settingsWindow.ShowDialog();
 				if (result == System.Windows.Forms.DialogResult.OK) {
-					CreateNewGame(settingsWindow.GetHeight(),
-					              settingsWindow.GetWidth(), settingsWindow.GetMines());
+					CreateNewGame(settingsWindow.GetHeight(), settingsWindow.GetWidth(),
+                        settingsWindow.GetMines(), settingsWindow.UseMarks());
 					CreateFieldControl();
 				}
 			}
@@ -81,11 +79,17 @@ namespace MineSweeper {
 			Close();
 		}
 		
-		private void CreateNewGame(int rows, int columns, int minesCount) {
+		private void CreateNewGame(int rows, int columns, int minesCount, bool useMarks) {
 			if (model != null) {
 				model.Dispose();
 			}
-			model = new MineModel.GameModel(rows, columns, minesCount, this);
+            MineModel.MarkStrategy markStrategy = null;
+            if (useMarks) {
+                markStrategy = new MineModel.QuestionStrategy();
+            } else {
+                markStrategy = new MineModel.MineStrategy();
+            }
+			model = new MineModel.GameModel(rows, columns, minesCount, markStrategy, this);
 			field = new WFField(model);
 			controller = new MineView.Controller(model, field, new RectangleFactory());
 		}
@@ -97,10 +101,10 @@ namespace MineSweeper {
 			}
 			fieldControl = new FieldControl(field);
 			fieldControl.Location = new System.Drawing.Point(0, 0);
-			fieldControl.Size = new System.Drawing.Size(field.Width, field.Height);
+			fieldControl.ClientSize = new System.Drawing.Size(field.Width, field.Height);
 			panel.Controls.Add(fieldControl);
-			panel.Size = new System.Drawing.Size(field.Width, field.Height);
-			Size = new System.Drawing.Size(field.Width, 36 + field.Height + 50);
+			panel.ClientSize = new System.Drawing.Size(field.Width, field.Height);
+            ClientSize = new System.Drawing.Size(field.Width, PanelHeight + field.Height);
 		}
 		
 		protected override void Dispose(bool disposing) {

@@ -11,6 +11,7 @@ namespace MineModel {
 
 		private bool MinesPlaced { get; set; }
 		private Timer Timer { get; set; }
+        internal MarkStrategy MarkStrategy { get; private set; }
 		public int Rows { get; private set; }
 		public int Columns { get; private set; }
 		public int MinesCount { get; private set; }
@@ -37,22 +38,32 @@ namespace MineModel {
 			}
 		}
 		
-		public GameModel(int rows, int columns, int minesCount,
+		public GameModel(int rows, int columns, int minesCount, MarkStrategy markStrategy,
 		             System.ComponentModel.ISynchronizeInvoke synchronizingObject) {
-			GameState = MineModel.GameState.None;
+            if (rows < 8)
+                rows = 8;
+            if (columns < 8)
+                columns = 8;
+            if (minesCount > rows * columns - 1)
+                minesCount = rows * columns - 1;
+            if (minesCount <= 0)
+                minesCount = 1;
+
+            GameState = MineModel.GameState.None;
 			MinesPlaced = false;
-			Rows = (rows >= 5) ? rows : 5;
-			Columns = (columns >= 5) ? columns : 5;
-			MinesCount = (minesCount <= rows * columns - 10) ? minesCount : rows * columns - 10;
-			Cells = new List<CellModel>(rows * columns);
-			MineCounter = new CounterModel(minesCount);
+			Rows = rows;
+			Columns = columns;
+			MinesCount = minesCount;
+            MarkStrategy = markStrategy;
+            Cells = new List<CellModel>(rows * columns);
+            MineCounter = new CounterModel(MinesCount);
 			TimeCounter = new CounterModel(0);
 			StateButton = new StateButtonModel(this);
 			Timer = new System.Timers.Timer(1000);
 			Timer.SynchronizingObject = synchronizingObject;
 			Timer.Elapsed += (sender, e) => UpdateTimeCounter();
 
-			for (int row = 0; row < rows; row++) {
+            for (int row = 0; row < rows; row++) {
 				for (int column = 0; column < columns; column++) {
 					Cells.Add(new CellModel(this, row, column));
 				}

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -7,8 +7,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F4C57F14-F94B-4F9E-889D-8ED3FC592C39}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>MineWinFormsView</RootNamespace>
-    <AssemblyName>MineWinFormsView</AssemblyName>
+    <RootNamespace>MineSweeper</RootNamespace>
+    <AssemblyName>MineSweeper</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,15 +36,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="FieldControl.cs" />
+    <Compile Include="FieldControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WFCounter.cs" />
     <Compile Include="WFStateButton.cs" />
     <Compile Include="WFField.cs" />
-    <Compile Include="MineWindow.cs" />
+    <Compile Include="MineWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ImageManager.cs" />
     <Compile Include="WinFormsFactory.cs" />
     <Compile Include="WFFieldCell.cs" />
-    <Compile Include="SettingsWindow.cs" />
+    <Compile Include="SettingsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Main.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -57,5 +63,10 @@
       <Project>{23D61FBD-2D68-43D7-AF9A-9DC70E40E1C4}</Project>
       <Name>MineModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SettingsWindow.resx">
+      <DependentUpon>SettingsWindow.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

@@ -75,17 +75,7 @@ namespace MineModel {
 		}
 		
 		internal void ToggleMark() {
-			switch (State) {
-			case CellState.Closed:
-				State = CellState.MarkedMine;
-				return;
-			case CellState.MarkedMine:
-				State = CellState.MarkedQuestion;
-				return;
-			case CellState.MarkedQuestion:
-				State = CellState.Closed;
-				return;
-			}
+            GameModel.MarkStrategy.ToggleMark(this);
 		}
 	}
 }
